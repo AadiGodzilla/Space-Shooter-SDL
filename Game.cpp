@@ -31,7 +31,7 @@ std::vector<Entity> explosions;
 SDL_Renderer* Game::m_renderer = nullptr;
 
 Game::Game() :
-	m_title("Game"), m_screenwidth(800), m_screenheight(600), m_running(true), m_pause(false), m_gameover(false), m_event(),
+	m_title("Space Shooter"), m_screenwidth(800), m_screenheight(600), m_running(true), m_pause(false), m_gameover(false), m_event(),
 	m_window(SDL_CreateWindow(m_title, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, m_screenwidth, m_screenheight, NULL))
 {
 	m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED);
@@ -83,8 +83,7 @@ void Game::update()
 			case SDLK_ESCAPE:
 				m_pause = !m_pause;
 			case SDLK_r:
-				if (m_gameover)
-					reset();
+				reset();
 			}
 		}
 	}
