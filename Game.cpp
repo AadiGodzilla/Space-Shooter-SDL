@@ -1,6 +1,5 @@
 #include "Game.h"
 
-#include <deque>
 #include <memory>
 #include <vector>
 #include <iostream>
@@ -134,7 +133,7 @@ void Game::update()
 		}
 
 		Collision::enemy_bullet_collision(enemies, bullets, explosions, score);
-		Collision::player_bullet_collision(player, bullets, explosions);
+		Collision::player_bullet_collision(player, hp_text, bullets, explosions);
 	}
 	if (player == nullptr) m_gameover = true;
 }
@@ -155,7 +154,7 @@ void Game::render()
 	else if (m_pause) pa_text->render();
 
 	score->render();
-	hp_text->render(player);
+	hp_text->render();
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -169,6 +168,7 @@ void Game::reset()
 	SDL_Rect p_rect = { m_screenwidth / 2, 500, 50, 50 };
 	player = std::make_unique<Player>(m_renderer, "res/player.png", p_rect, 
 		static_cast<int>(m_screenwidth), static_cast<int>(m_screenheight));
+	hp_text->update_hp_text(player->get_hp());
 	m_gameover = false;
 }
 

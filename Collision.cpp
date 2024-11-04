@@ -42,6 +42,7 @@ void Collision::enemy_bullet_collision(
 
 void Collision::player_bullet_collision(
 	std::unique_ptr<Player>& player, 
+	std::unique_ptr<HPCounter>& hp_counter,
 	std::vector<Bullet>& bullets, 
 	std::vector<Entity>& explosions
 )
@@ -56,6 +57,7 @@ void Collision::player_bullet_collision(
 			{
 				bullets_to_remove.emplace_back(i);
 				player->hit();
+				hp_counter->update_hp_text(player->get_hp());
 				if (player->get_hp() == 0)
 				{
 					explosions.emplace_back(Entity(Game::get_renderer(), "res/explosion.png", *player->rect()));

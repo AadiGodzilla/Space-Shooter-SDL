@@ -143,6 +143,7 @@
     <Image Include="res\bullet2.png" />
     <Image Include="res\enemy.png" />
     <Image Include="res\explosion.png" />
+    <Image Include="res\icon.ico" />
     <Image Include="res\player.png" />
   </ItemGroup>
   <ItemGroup>
@@ -166,12 +167,16 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="HPCounter.h" />
     <ClInclude Include="Player.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Text.h" />
     <ClInclude Include="Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="res\Arial.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Space Shooter.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

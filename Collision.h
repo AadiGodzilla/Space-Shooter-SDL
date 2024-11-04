@@ -9,6 +9,7 @@
 #include <deque>
 #include <memory>
 #include <vector>
+#include "HPCounter.h"
 
 class Collision
 {
@@ -20,7 +21,8 @@ public:
 		std::unique_ptr<Score>& score
 	);
 	static void player_bullet_collision(
-		std::unique_ptr<Player>& player, 
+		std::unique_ptr<Player>& player,
+		std::unique_ptr<HPCounter>& hp_counter,
 		std::vector<Bullet>& bullets, 
 		std::vector<Entity>& explosions
 	);

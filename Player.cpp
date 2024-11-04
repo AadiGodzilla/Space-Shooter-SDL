@@ -19,8 +19,7 @@ SDL_Rect* Player::rect()
 
 int32_t Player::get_hp()
 {
-	if (this != nullptr)
-		return m_hp;
+	return m_hp;
 }
 
 void Player::hit()
