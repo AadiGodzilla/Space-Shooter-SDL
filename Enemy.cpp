@@ -9,7 +9,7 @@ Enemy::Enemy(SDL_Renderer* renderer, const char* image, SDL_Rect& rect, int boun
 
 void Enemy::destroy()
 {
-	Entity::~Entity();
+	Entity::destroy();
 }
 
 SDL_Rect* Enemy::rect()
@@ -34,7 +34,7 @@ void Enemy::update(std::vector<Bullet>& bullets)
 }
 void Enemy::shoot(std::vector<Bullet>& bullets)
 {
-	if (b_timer.interval(0.75f))
+	if (m_timer.interval(750.0f))
 	{
 		SDL_Rect b_rect = { m_rect.x + (m_rect.w / 2) - 8, m_rect.y + 30, 16, 20 };
 		bullets.emplace_back(Bullet(m_renderer, "res/bullet2.png", b_rect, false));

@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include <SDL2/SDL_image.h>
+#include <iostream>
 
 Entity::Entity() :
 	m_renderer(nullptr), m_rect(), m_surface(nullptr), m_texture(nullptr)
@@ -22,6 +23,11 @@ void Entity::destroy()
 SDL_Rect* Entity::rect() 
 {
 	return &m_rect;
+}
+
+Timer& Entity::get_timer()
+{
+	return m_timer;
 }
 
 void Entity::render()

@@ -35,8 +35,10 @@ void Score::render()
 	m_texture = SDL_CreateTextureFromSurface(m_renderer, m_surface);
 
 	SDL_FreeSurface(m_surface);
+	m_surface = nullptr;
 
 	Text::render();
 
 	SDL_DestroyTexture(m_texture);
+	m_texture = nullptr;
 }

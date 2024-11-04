@@ -17,7 +17,7 @@ SDL_Rect* Player::rect()
 	return Entity::rect();
 }
 
-uint32_t Player::get_hp()
+int32_t Player::get_hp()
 {
 	if (this != nullptr)
 		return m_hp;
@@ -41,7 +41,7 @@ void Player::update(const Uint8* keyboard, std::vector<Bullet>& bullets)
 void Player::shoot(std::vector<Bullet>& bullets)
 {
 	SDL_Rect rect = { m_rect.x + (m_rect.w / 2) - 8, m_rect.y - 30, 16, 20 };
-	if (m_timer.interval(0.25f))
+	if (m_timer.interval(250.0f))
 		bullets.emplace_back(Bullet(m_renderer, "res/bullet1.png", rect, true));
 }
 

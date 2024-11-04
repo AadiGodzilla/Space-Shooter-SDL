@@ -1,17 +1,22 @@
 #include "Timer.h"
 
-Timer::Timer()
-	: start(std::chrono::high_resolution_clock::now()), delta(0.0f)
-{}
-
-bool Timer::interval(double s)
+Timer::Timer() :
+	m_start(std::chrono::high_resolution_clock::now()), m_delta(0)
 {
-	auto end = std::chrono::high_resolution_clock::now();
-	delta = end - start;
-	if (delta.count() >= s)
+
+}
+
+bool Timer::interval(double ms)
+{
+	if (this != nullptr)
 	{
-		start = end;
-		return true;
+		m_end = std::chrono::high_resolution_clock::now();
+		m_delta = std::chrono::duration_cast<std::chrono::milliseconds>(m_end - m_start);
+		if (m_delta.count() >= ms)
+		{
+			m_start = m_end;
+			return true;
+		}
+		return false;
 	}
-	return false;
 }

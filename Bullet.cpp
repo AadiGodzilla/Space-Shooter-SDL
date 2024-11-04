@@ -7,7 +7,7 @@ Bullet::Bullet(SDL_Renderer* renderer, const char* image, SDL_Rect& rect, bool d
 
 void Bullet::destroy()
 {
-	Entity::~Entity();
+	Entity::destroy();
 }
 
 SDL_Rect* Bullet::rect()

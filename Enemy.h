@@ -10,12 +10,11 @@
 class Enemy : public Entity
 {
 	uint32_t m_speed, m_bx, m_by;
-	Timer m_timer, b_timer;
 	bool m_swap;
 public:
 	Enemy(SDL_Renderer* renderer, const char* image, SDL_Rect& rect, int boundX, int boundY);
-	SDL_Rect* rect() override;
 	void destroy() override;
+	SDL_Rect* rect() override;
 	void update(std::vector<Bullet>& bullets);
 	void render() override;
 private:

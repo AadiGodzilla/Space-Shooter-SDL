@@ -3,12 +3,14 @@
 #include <iostream>
 #include <vector>
 
+#include "Game.h"
 #include "Score.h"
 
 void Collision::enemy_bullet_collision(
 	std::vector<Enemy>& enemies, 
 	std::vector<Bullet>& bullets, 
-	std::shared_ptr<Score>& score
+	std::vector<Entity>& explosions,
+	std::unique_ptr<Score>& score
 )
 {
 	std::vector<int> enemies_to_remove, bullets_to_remove;
@@ -21,10 +23,9 @@ void Collision::enemy_bullet_collision(
 			{
 				if (SDL_HasIntersection(enemies[j].rect(), bullets[i].rect()) && bullets[i].get_dir())
 				{
-					enemies[j].destroy();
-					bullets[i].destroy();
-					enemies_to_remove.push_back(j);
-					bullets_to_remove.push_back(i);
+					explosions.emplace_back(Entity(Game::get_renderer(), "res/explosion.png", *enemies[j].rect()));
+					enemies_to_remove.emplace_back(j);
+					bullets_to_remove.emplace_back(i);
 					score->add_score();
 					break;
 				}
@@ -40,24 +41,27 @@ void Collision::enemy_bullet_collision(
 }
 
 void Collision::player_bullet_collision(
-	std::shared_ptr<Player>& player, 
+	std::unique_ptr<Player>& player, 
 	std::vector<Bullet>& bullets, 
-	std::shared_ptr<Score>& score
+	std::vector<Entity>& explosions
 )
 {
 	std::vector<int> bullets_to_remove;
 
-	for (int i = bullets.size() - 1; i >= 0; --i)
+	if (!bullets.empty())
 	{
-		if (SDL_HasIntersection(bullets[i].rect(), player->rect()) && !bullets[i].get_dir())
+		for (int i = bullets.size() - 1; i >= 0; --i)
 		{
-			bullets_to_remove.push_back(i);
-			player->hit();
-			if (player->get_hp() <= 0)
+			if (SDL_HasIntersection(bullets[i].rect(), player->rect()) && !bullets[i].get_dir())
 			{
-				player.reset();
-				score->reset_score();
-				break;
+				bullets_to_remove.emplace_back(i);
+				player->hit();
+				if (player->get_hp() == 0)
+				{
+					explosions.emplace_back(Entity(Game::get_renderer(), "res/explosion.png", *player->rect()));
+					player.reset();
+					break;
+				}
 			}
 		}
 	}
