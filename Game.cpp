@@ -18,10 +18,11 @@
 Timer m_timer, e_timer;
 
 std::unique_ptr<Player> player;
-std::unique_ptr<Score> score;
 
 std::unique_ptr<Text> go_text, pa_text;
-std::unique_ptr<HPCounter> hp_text;
+
+std::unique_ptr<Score> score;
+std::unique_ptr<HPCounter> hp_count;
 
 std::vector<Bullet> bullets;
 std::vector<Enemy> enemies;
@@ -38,18 +39,12 @@ Game::Game() :
 	IMG_Init(IMG_INIT_PNG);
 	TTF_Init();
 
-	SDL_Rect p_rect = { static_cast<int>(m_screenwidth / 2), 500, 50, 50 };
-	SDL_Rect go_rect = { static_cast<int>(m_screenwidth / 2) - 125, static_cast<int>(m_screenheight / 2) - 25, 250, 50 };
-	SDL_Rect pa_rect = { static_cast<int>(m_screenwidth / 2) - 90, static_cast<int>(m_screenheight / 2) - 25, 180, 50 };
-	SDL_Rect sc_rect = { 10, static_cast<int>(m_screenheight - 50), 150, 40 };
-	SDL_Rect hp_rect = { static_cast<int>(m_screenwidth - 170), static_cast<int>(m_screenheight - 50), 160, 40 };
-
-	player = std::make_unique<Player>(m_renderer, "res/player.png", p_rect, 
-		static_cast<int>(m_screenwidth), static_cast<int>(m_screenheight));
-	go_text = std::make_unique<Text>(m_renderer, "GAME OVER", "res/arial.ttf", go_rect);
-	pa_text = std::make_unique<Text>(m_renderer, "PAUSE", "res/Arial.ttf", pa_rect);
-	score = std::make_unique<Score>(m_renderer, "res/Arial.ttf", sc_rect);
-	hp_text = std::make_unique<HPCounter>(m_renderer, "res/Arial.ttf", hp_rect);
+	SDL_Rect p_rect = { static_cast<int>(m_screenwidth / 2), 490, 50, 50 };
+	player = std::make_unique<Player>(m_renderer, "res/player.png", p_rect, static_cast<int>(m_screenwidth), static_cast<int>(m_screenheight));
+	go_text = std::make_unique<Text>(m_renderer, "GAME OVER", "res/Arial.ttf", (m_screenwidth / 2) - 150, (m_screenheight / 2) - 30, 50);
+	pa_text = std::make_unique<Text>(m_renderer, "PAUSE", "res/Arial.ttf", (m_screenwidth / 2) - 75, (m_screenheight / 2) - 30, 50);
+	score = std::make_unique<Score>(m_renderer, "res/Arial.ttf", 60, m_screenheight - 45, 35);
+	hp_count = std::make_unique<HPCounter>(m_renderer, "res/Arial.ttf", m_screenwidth - 35, m_screenheight - 45, 35);
 }
 
 Game::~Game()
@@ -81,8 +76,10 @@ void Game::update()
 			{
 			case SDLK_ESCAPE:
 				m_pause = !m_pause;
+				break;
 			case SDLK_r:
-				reset();
+				if (m_gameover) reset();
+				break;
 			}
 		}
 	}
@@ -133,7 +130,7 @@ void Game::update()
 		}
 
 		Collision::enemy_bullet_collision(enemies, bullets, explosions, score);
-		Collision::player_bullet_collision(player, hp_text, bullets, explosions);
+		Collision::player_bullet_collision(player, hp_count, bullets, explosions);
 	}
 	if (player == nullptr) m_gameover = true;
 }
@@ -154,7 +151,7 @@ void Game::render()
 	else if (m_pause) pa_text->render();
 
 	score->render();
-	hp_text->render();
+	hp_count->render();
 
 	SDL_RenderPresent(m_renderer);
 }
@@ -166,9 +163,9 @@ void Game::reset()
 	explosions.clear();
 	score->reset_score();
 	SDL_Rect p_rect = { m_screenwidth / 2, 500, 50, 50 };
-	player = std::make_unique<Player>(m_renderer, "res/player.png", p_rect, 
-		static_cast<int>(m_screenwidth), static_cast<int>(m_screenheight));
-	hp_text->update_hp_text(player->get_hp());
+	player = std::make_unique<Player>(m_renderer, "res/player.png", p_rect, static_cast<int>(m_screenwidth), static_cast<int>(m_screenheight));
+	hp_count->update_hp_text(player->get_hp());
+	m_pause = false;
 	m_gameover = false;
 }
 

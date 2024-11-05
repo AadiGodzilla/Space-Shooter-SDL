@@ -16,7 +16,7 @@ protected:
 
 public:
 	Entity();
-	Entity(SDL_Renderer* renderer, const char* image, SDL_Rect& rect);
+	Entity(SDL_Renderer* renderer, const char* image, SDL_Rect rect);
 	virtual void destroy();
 	virtual SDL_Rect* rect();
 	virtual Timer& get_timer();

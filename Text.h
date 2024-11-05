@@ -13,7 +13,7 @@ protected:
 	SDL_Texture* m_texture = nullptr;
 public:
 	Text();
-	Text(SDL_Renderer* renderer, const char* text, const char* font, SDL_Rect& rect);
+	Text(SDL_Renderer* renderer, const char* text, const char* font, uint32_t x, uint32_t y, uint32_t size);
 	~Text();
 	virtual void render();
 };

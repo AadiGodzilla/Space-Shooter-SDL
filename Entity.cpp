@@ -6,7 +6,7 @@ Entity::Entity() :
 	m_renderer(nullptr), m_rect(), m_surface(nullptr), m_texture(nullptr)
 {}
 
-Entity::Entity(SDL_Renderer* renderer, const char* image, SDL_Rect& rect) : 
+Entity::Entity(SDL_Renderer* renderer, const char* image, SDL_Rect rect) : 
 	m_renderer(renderer), m_rect(rect), m_surface(IMG_Load(image)), 
 	m_texture(SDL_CreateTextureFromSurface(m_renderer, m_surface))
 {
