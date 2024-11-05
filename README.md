@@ -12,4 +12,4 @@ A Space Shooter Game made in C++ using the SDL Graphics Library
 - D -> Move Player right
 - Space -> Fire laser
 - Esc -> Pause Game
-- R -> Restart Game (when Game Over or normal)
+- R -> Restart Game (when Game Over)
